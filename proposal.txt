@@ -2,7 +2,7 @@ Our proposal for the Net Computing course is to build a distributed key-value ca
 The concept is based on memcached, which is a high performance distributed key-value store,
 but our project will be more academic, simply to explore the concepts that can be used when
 making such an application. One cool aspect of this idea, is that it can be scaled to be as
-complex as we want. This will be our milestones:
+complex as we want. These will be our milestones:
 
 * Working program for single machine.
 * Client/server implementation.
