@@ -2,7 +2,7 @@
  * Basic cache functions. Caching does not guarantee the data is actually
  * stored.
  */
-interface ICache
+public interface ICache
 {
 	/**
 	 * Initialises the cache.
