@@ -5,11 +5,6 @@
 public interface ICache
 {
 	/**
-	 * Initialises the cache.
-	 */
-	public void init();
-	
-	/**
 	 * Get a string from the cache based on the key.
 	 * @return Requested string, or null when not found
 	 */
