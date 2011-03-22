@@ -61,13 +61,31 @@
     <splitter split-orientation="horizontal" split-proportion="0.5">
       <split-first>
         <leaf>
-          <file leaf-file-name="SocketServer.java" pinned="false" current="false" current-in-tab="true">
+          <file leaf-file-name="SocketServer.java" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/RoySockets/src/SocketServer.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="6" column="43" selection-start="214" selection-end="214" vertical-scroll-proportion="0.1184669">
+                <state line="3" column="61" selection-start="99" selection-end="99" vertical-scroll-proportion="0.0">
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="HttpRequest.java" pinned="false" current="true" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/RoySockets/src/HttpRequest.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state line="9" column="59" selection-start="297" selection-end="297" vertical-scroll-proportion="0.2693662">
                   <folding>
                     <element signature="imports" expanded="true" />
                   </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="RequestProperty.java" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/RoySockets/src/RequestProperty.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state line="6" column="22" selection-start="206" selection-end="206" vertical-scroll-proportion="0.0">
+                  <folding />
                 </state>
               </provider>
             </entry>
@@ -85,10 +103,10 @@
       </split-first>
       <split-second>
         <leaf>
-          <file leaf-file-name="SocketClient.java" pinned="false" current="true" current-in-tab="true">
+          <file leaf-file-name="SocketClient.java" pinned="false" current="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/RoySockets/src/SocketClient.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="4" column="26" selection-start="125" selection-end="125" vertical-scroll-proportion="0.078977935">
+                <state line="6" column="43" selection-start="157" selection-end="197" vertical-scroll-proportion="0.17957747">
                   <folding>
                     <element signature="imports" expanded="true" />
                   </folding>
@@ -201,17 +219,17 @@
     <property name="GoToFile.includeJavaFiles" value="false" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="options.splitter.main.proportions" value="0.3" />
-    <property name="MemberChooser.sorted" value="false" />
-    <property name="recentsLimit" value="5" />
     <property name="options.lastSelected" value="preferences.editor" />
+    <property name="recentsLimit" value="5" />
+    <property name="MemberChooser.sorted" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="MemberChooser.copyJavadoc" value="false" />
-    <property name="dynamic.classpath" value="false" />
-    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="dynamic.classpath" value="false" />
+    <property name="MemberChooser.copyJavadoc" value="false" />
   </component>
-  <component name="RunManager" selected="Application.SocketClient">
+  <component name="RunManager" selected="Application.HttpRequest">
     <configuration default="false" name="SocketServer" type="Application" factoryName="Application" temporary="true">
       <option name="MAIN_CLASS_NAME" value="SocketServer" />
       <option name="VM_PARAMETERS" />
@@ -230,11 +248,11 @@
     </configuration>
     <configuration default="false" name="SocketClient" type="Application" factoryName="Application" temporary="true">
       <option name="MAIN_CLASS_NAME" value="SocketClient" />
-      <option name="VM_PARAMETERS" />
-      <option name="PROGRAM_PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
       <option name="ENABLE_SWING_INSPECTOR" value="false" />
       <option name="ENV_VARIABLES" />
       <option name="PASS_PARENT_ENVS" value="true" />
@@ -324,9 +342,26 @@
         <option name="Maven.BeforeRunTask" enabled="false" />
       </method>
     </configuration>
-    <list size="2">
+    <configuration default="false" name="HttpRequest" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="HttpRequest" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="RoySockets" />
+      <envs />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <list size="3">
       <item index="0" class="java.lang.String" itemvalue="Application.SocketServer" />
       <item index="1" class="java.lang.String" itemvalue="Application.SocketClient" />
+      <item index="2" class="java.lang.String" itemvalue="Application.HttpRequest" />
     </list>
     <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
       <Host>localhost</Host>
@@ -441,37 +476,45 @@
   <component name="editorHistoryManager">
     <entry file="jar://C:/Program Files/Java/jdk1.6.0_24/src.zip!/java/net/PlainSocketImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="216" column="44" selection-start="6100" selection-end="6100" vertical-scroll-proportion="1.912892">
-          <folding />
-        </state>
+        <state line="216" column="44" selection-start="6100" selection-end="6100" vertical-scroll-proportion="1.912892" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/RoySockets/src/ClientRequest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="42" selection-start="278" selection-end="278" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/RoySockets/src/SocketServer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="43" selection-start="214" selection-end="214" vertical-scroll-proportion="0.1184669">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
+        <state line="8" column="42" selection-start="278" selection-end="278" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/RoySockets/src/ServerResponse.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="25" selection-start="661" selection-end="661" vertical-scroll-proportion="0.0">
+        <state line="24" column="25" selection-start="661" selection-end="661" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RoySockets/src/SocketServer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="61" selection-start="99" selection-end="99" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/RoySockets/src/SocketClient.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="26" selection-start="125" selection-end="125" vertical-scroll-proportion="0.078977935">
+        <state line="6" column="43" selection-start="157" selection-end="197" vertical-scroll-proportion="0.17957747">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RoySockets/src/RequestProperty.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="22" selection-start="206" selection-end="206" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RoySockets/src/HttpRequest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="59" selection-start="297" selection-end="297" vertical-scroll-proportion="0.2693662">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
