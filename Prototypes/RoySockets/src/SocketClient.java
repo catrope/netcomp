@@ -9,7 +9,7 @@ public class SocketClient {
             Socket s = new Socket("localhost", 2011);
             ObjectOutputStream oOut = new ObjectOutputStream(s.getOutputStream());
 
-            ServerRequest request = new ServerRequest("my request is 1");
+            ClientRequest request = new ClientRequest("my request is 1");
             oOut.writeObject(request);
 
             oOut.close();

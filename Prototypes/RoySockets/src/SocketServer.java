@@ -13,7 +13,7 @@ public class SocketServer {
             Socket connection = socket.accept();
             ObjectInputStream oIn = new ObjectInputStream(connection.getInputStream());
             
-            ServerRequest request = (ServerRequest)oIn.readObject();
+            ClientRequest request = (ClientRequest)oIn.readObject();
             if(request != null){
                 System.out.println(request.getRequestKey());
             }
@@ -22,12 +22,6 @@ public class SocketServer {
             socket.close();
         }
         catch(Exception e){
-            e.printStackTrace();
-        }
-
-        try {
-            System.in.read();
-        } catch (IOException e) {
             e.printStackTrace();
         }
     }
