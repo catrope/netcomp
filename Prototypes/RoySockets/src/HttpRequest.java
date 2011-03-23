@@ -1,33 +1,42 @@
-import org.omg.CORBA.Request;
-
 import java.net.*;
 import java.io.*;
 import java.util.Vector;
 
 public class HttpRequest {
      public static void main(String args[]){
-         Vector<RequestProperty> props = new Vector<RequestProperty>();
-         props.add(new RequestProperty("Accept", "text/html"));
-         Request("http://www.google.nl", props);
+         Vector<EncodedKeyValuePair> props = new Vector<EncodedKeyValuePair>();
+         props.add(new EncodedKeyValuePair("MyKey", "MyValue"));
+         Request("http://roy-t.nl/services/RESTEcho.php", props);
      }
 
 
-    public static void Request(String address, Vector<RequestProperty> props){
+    public static void Request(String address, Vector<EncodedKeyValuePair> props){
+        StringBuilder sb;
         URL url = null;
         BufferedReader reader = null;
-        StringBuilder stringBuilder;
         try{
-            url = new URL(address);
-            HttpURLConnection connection = (HttpURLConnection)url.openConnection();
-            connection.setRequestMethod("GET");
-            connection.setDoOutput(true);
+            sb = new StringBuilder(address);
 
-            //Add request headers
-            for(RequestProperty prop : props){
-                connection.addRequestProperty(prop.key,  prop.value);
+            for(int i = 0; i < props.size(); i++){
+                if(i == 0){
+                    sb.append('?');
+                }
+                else
+                {
+                    sb.append('&');
+                }
+                sb.append(props.elementAt(i).key);
+                sb.append("=");
+                sb.append(props.elementAt(i).value);
             }
 
+            url = new URL(sb.toString());
+
+            HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setRequestProperty("Accept-Charset", EncodedKeyValuePair.Charset);
             connection.setReadTimeout(15000);
+
             connection.connect();
 
             reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -36,9 +45,12 @@ public class HttpRequest {
             while((line = reader.readLine()) != null){
                 System.out.println(line);
             }
+
+            
+            reader.close();
         }
         catch(Exception ex){
             ex.printStackTrace();
-        }        
+        }
     }
 }
