@@ -16,8 +16,6 @@ public class RemoteCache implements ICache
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
-		
-		
 	}
 	
 	public void clear()
