@@ -11,7 +11,7 @@ $('#get').click(function() {
 	return false;
 });
 $('#set').click(function() {
-	$.get('proxy.php', {meth:'GET', srv:$('#server').val(), prt:$('#port').val(), pth:$('#key').val(),
+	$.get('proxy.php', {meth:'POST', srv:$('#server').val(), prt:$('#port').val(), pth:$('#key').val(),
 			cnt:$('#value').val()});
 	return false;
 });
