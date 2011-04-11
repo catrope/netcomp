@@ -29,7 +29,7 @@ public class Main
 				serverNames.add(scanner.nextLine());
 			}
 			
-			cache = new RemoteCache((String[])serverNames.toArray(), Integer.parseInt(args[2]), new BasicCache(Integer.parseInt(args[3])));
+			cache = new RemoteCache(serverNames, Integer.parseInt(args[2]), new BasicCache(Integer.parseInt(args[3])));
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.err.println("Using basic cache...");
