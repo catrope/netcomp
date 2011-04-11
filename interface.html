@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+$(function(){
+$('#get').click(function() {
+	$.get('proxy.php', {meth:'GET', srv:$('#server').val(), prt:$('#port').val(), pth:$('#key').val()},
+		function(data) { $('#value').val(data); }, 'text'
+	);
+	return false;
+});
+$('#set').click(function() {
+	$.get('proxy.php', {meth:'POST', srv:$('#server').val(), prt:$('#port').val(), pth:$('#key').val(),
+			cnt:$('#value').val()});
+	$('#value').val('');
+	return false;
+});
+});
+</script>
+</head>
+<body>
+<form>
+Server: <input type="text" id="server" /><br />
+Port: <input type="text" id="port" /><br />
+Key: <input type="text" id="key" /><br />
+Value: <br />
+<textarea id="value" cols="80" rows="10"></textarea><br />
+
+<button name="get" id="get">Get</button> <button name="set" id="set">Set</button>
+</form>
+</body>
+</html>
