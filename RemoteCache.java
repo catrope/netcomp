@@ -5,12 +5,14 @@ import java.rmi.RemoteException;
 public class RemoteCache implements ICache
 {
 	CacheServer cache;
+	HashBalancer hb;
 	
 	public RemoteCache(String[] serverNames, int localId, ICache localCache)
 	{
 		try {
 			cache = new CacheServer(localCache);
 			Naming.rebind(serverNames[localId], cache);
+			hb = new HashBalancer(serverNames);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		} catch (MalformedURLException e) {
@@ -20,8 +22,14 @@ public class RemoteCache implements ICache
 	
 	public void clear()
 	{
-		// TODO: request the list of server names from the hash
-		// generator and call them all
+		for (String server : hb.getServers())
+		{
+			try {
+				((ICache)Naming.lookup(server)).clear();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	public String get(String key)
@@ -36,7 +44,12 @@ public class RemoteCache implements ICache
 	
 	private ICache getCacheServer(String key)
 	{
-		// TODO: use hash generator
-		return cache;
+		try {
+			return (ICache)Naming.lookup(hb.getServerForKey(key));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 }

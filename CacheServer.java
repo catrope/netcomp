@@ -1,6 +1,4 @@
-import java.rmi.RMISecurityManager;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
 import java.rmi.server.UnicastRemoteObject;
 
 /**
@@ -8,6 +6,8 @@ import java.rmi.server.UnicastRemoteObject;
  */
 public class CacheServer extends UnicastRemoteObject implements ICache
 {
+	private static final long serialVersionUID = 1L;
+	
 	final ICache localCache;
 	
 	public CacheServer(ICache localCache) throws RemoteException
