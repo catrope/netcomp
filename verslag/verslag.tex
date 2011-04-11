@@ -1,7 +1,7 @@
 \documentclass{article}
 \usepackage{listings}
 \usepackage[dutch]{babel}
-\lstset{tabsize=4, columns=flexible, breaklines=true, numbers=left, stepnumber=1, numberstyle=\tiny, numbersep=6pt, xleftmargin=1.8em}
+\lstset{basicstyle=\ttfamily, tabsize=4, columns=flexible, breaklines=true, stepnumber=1, numberstyle=\tiny, numbersep=6pt, xleftmargin=1.8em}
 \lstdefinestyle{nonumbers}{numbers=none}
 \lstdefinestyle{logo}{language={}}
 
@@ -28,13 +28,18 @@ request, or an empty response for a POST request.
 
 \section*{Implementation}
 \subsection*{HTTP request format}
-The requests the HTTP server expects are very simple. When getting the value of a
-cache key, the following HTTP request-response dialog happens:
+The requests the HTTP server expects and the responses it sends are very simple,
+and were kept minimal. What follows is a brief description of what happens on the
+HTTP layer when getting and setting values.
+
+\subsection*{GET request format}
+When getting the value of a cache key, the following HTTP request-response
+dialog takes place:
 
 \begin{lstlisting}
 GET /mykey HTTP/1.0
 
-HTTP/1.0 200 OK 
+HTTP/1.0 200 OK
 Date: Mon, 11 Apr, 2011 16:56:04 CEST
 Content-Type: text/plain; charset=utf-8
 Content-Length: 12
@@ -42,5 +47,46 @@ Connection: close
 
 Hello World!
 \end{lstlisting}
+
+The HTTP server responds immediately after receiving the first line with the
+request method (\lstinline!GET!) and the URL (\lstinline!/mykey!). Clients
+compliant with the HTTP specification will send more headers after this line,
+but those will be silently ignored.
+
+The response contains the minimal headers required by HTTP (200 response code,
+date, content type and content length) as well as \lstinline!Connection: close!
+to prevent HTTP 1.1 clients with keepalive functionality to try to keep the
+connection open after the request has finished. The response body contains
+the requested value.
+
+\subsection*{POST request format}
+When setting the value of a cache key, the following HTTP request-response
+dialog takes place:
+
+\begin{lstlisting}
+POST /mykey HTTP/1.0
+Content-Length: 12
+
+Hello World!
+
+
+HTTP/1.0 200 OK
+Date: Mon, 11 Apr, 2011 16:57:58 CEST
+Content-Type: text/plain; charset=utf-8
+Content-Length: 0
+Connection: close
+\end{lstlisting}
+
+In this case, the HTTP server cannot respond immediately and ignore all headers,
+because the \lstinline!Content-Length! header needs to be specified. All other
+headers are still ignored. After the headers, the server expects an empty line,
+followed by the request body, which contains the value to set. As long as the
+server has received fewer bytes than the specified number, it will wait for
+more data. Once it has received enough, it will truncate the received data
+to the length specified in the \lstinline!Content-Length! header, store it
+in the cache, and send the response.
+
+The response is the same as for the GET request above, except that it has an
+empty body and a content length of zero.
 
 \end{document}
