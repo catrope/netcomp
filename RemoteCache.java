@@ -20,11 +20,13 @@ public class RemoteCache implements ICache
 		
 		try {
 			URL url = new URL("http:" + serverName);
+			int port = 1099;
 			
 			if (url.getPort() > 0)
-				LocateRegistry.createRegistry(url.getPort());
-			else
-				LocateRegistry.createRegistry(1099);
+				port = url.getPort();
+			
+			LocateRegistry.createRegistry(port);
+			System.err.println("RMI on port " + port + "...");
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		} catch (MalformedURLException e) {

@@ -43,12 +43,16 @@ public class BasicCache extends UnicastRemoteObject implements ICache
 	
 	public String get(String key) throws RemoteException
 	{
+		System.out.println("Locally getting '" + key + "'...");
+		
 		// retrieve the value from the map
 		return map.get(key);
 	}
 	
 	public void set(String key, String val) throws RemoteException
 	{
+		System.out.println("Locally setting '" + key + "' to '" + val + "'...");
+		
 		// if the key is not in the map yet, some extra work needs to be done
 		if (!map.containsKey(key))
 		{
