@@ -1,17 +1,18 @@
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
+import java.util.Vector;
 
 public class RemoteCache implements ICache
 {
 	CacheServer cache;
 	HashBalancer hb;
 	
-	public RemoteCache(String[] serverNames, int localId, ICache localCache)
+	public RemoteCache(Vector<String> serverNames, int localId, ICache localCache)
 	{
 		try {
 			cache = new CacheServer(localCache);
-			Naming.rebind(serverNames[localId], cache);
+			Naming.rebind(serverNames.get(localId), cache);
 			hb = new HashBalancer(serverNames);
 		} catch (RemoteException e) {
 			e.printStackTrace();
