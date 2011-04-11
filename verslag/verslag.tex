@@ -1,4 +1,4 @@
-\documentclass[12pt]{article}
+\documentclass[11pt]{article}
 
 \usepackage{listings}
 \usepackage[english]{babel}
@@ -63,5 +63,10 @@ Connection: close
 
 Hello World!
 \end{lstlisting}
+
+\subsection*{Local cache}
+All caches --- local and remote --- implement the interface \texttt{ICache}.
+
+The implementation of a basic functional local cache (\texttt{BasicCache}) is quite simple. We use a \texttt{HashMap} to store key-value pairs of strings. To decide which values to throw away when the cache is full, we use a \texttt{LinkedList}. The last value of this list is removed when the list is full, and new items are placed in front. This gives almost a FIFO behavior, the only difference being that when an already existing value is set again, it is not moved to the front of the list.
 
 \end{document}
