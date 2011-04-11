@@ -1,11 +1,29 @@
-\documentclass{article}
+\documentclass[11pt]{article}
+
 \usepackage{listings}
-\usepackage[dutch]{babel}
 \lstset{basicstyle=\ttfamily, tabsize=4, columns=flexible, breaklines=true, stepnumber=1, numberstyle=\tiny, numbersep=6pt, xleftmargin=1.8em}
-\lstdefinestyle{nonumbers}{numbers=none}
-\lstdefinestyle{logo}{language={}}
+\usepackage[english]{babel}
+\usepackage{parskip}
+
 
 \begin{document}
+
+\author{Roy Triesschijn, Roan Kattouw and Jan Paul Posma}
+\date{\today}
+\title{Transparent distributed caching over REST}
+
+\maketitle
+
+\section*{Context}
+For websites and web applications it is important that pages are served quickly. Usually a database is used to store information, and it can take a little while to retrieve this information. Then this information has to be processed and inserted in a layout, which can also take time. In order to make the serving of often-accessed information more performant, caching solutions can be used. A possibility would be to use a local cache in memory, but the amount of information that can be stored in such a cache is limited. Therefore, a good option for a caching layer instead or on top of this local cache, would be a distributed cache. Such a cache is programmed for performance and can typically only function as a key-value store.
+
+A popular example of a distributed cache is \emph{memcached}. Memcached uses a server application which is really fast but does not have any logic functions at all. The client has to select which server it approaches for retrieving and storing a value for a certain key. This is usually done by a hashing function, but depends on the implementation of the client library and might therefore be inconsistent when using multiple implementations or programming languages sharing the same cached data.
+
+Another problem of memcached is that it uses its own API. While there currently are implementations for most programming languages, it can also be convenient to use standard protocols such as REST over HTTP, while not having to worry about which server to select.
+
+\section*{Goal}
+This, indeed, is the main objective of our distributed caching system. To provide a convenient cache that is easy to set up and easy to access. While it should be performant as it is a caching server, this is not the main objective, as this is mostly an academic exercise. It should provide a transparent API, where any user can call any of the caching servers, and the server should then silently pass on the request to the correct server.
+
 \section*{Design}
 Each node runs a very basic HTTP server that listens for GET and POST requests. Requests using
 other methods are silently ignored. The server then does some very basic parsing on the first line
@@ -88,5 +106,10 @@ in the cache, and send the response.
 
 The response is the same as for the GET request above, except that it has an
 empty body and a content length of zero.
+
+\subsection*{Local cache}
+All caches --- local and remote --- implement the interface \texttt{ICache}.
+
+The implementation of a basic functional local cache (\texttt{BasicCache}) is quite simple. We use a \texttt{HashMap} to store key-value pairs of strings. To decide which values to throw away when the cache is full, we use a \texttt{LinkedList}. The last value of this list is removed when the list is full, and new items are placed in front. This gives almost a FIFO behavior, the only difference being that when an already existing value is set again, it is not moved to the front of the list.
 
 \end{document}
