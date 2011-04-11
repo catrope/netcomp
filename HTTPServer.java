@@ -5,8 +5,15 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 public class HTTPServer {
-	public HTTPServer(int port){
+	final ICache cache;
+	
+	public HTTPServer(int port) {
+		this(port, new BasicCache());
+	}
+	
+	public HTTPServer(int port, ICache cache){
 		this.port = port;
+		this.cache = cache;
 	}
 	
 	public void Accept() throws IOException{
@@ -33,9 +40,9 @@ public class HTTPServer {
 
 		String methodString = input.readLine().toUpperCase();
 		if(methodString.startsWith("GET")){
-			HandleGET(methodString.substring(3),input, output);
+			HandleGET(methodString.substring(4),input, output);
 		}else if(methodString.startsWith("POST")){
-			HandlePOST(methodString.substring(4),input, output);
+			HandlePOST(methodString.substring(5),input, output);
 		}
 	}
 	
@@ -46,7 +53,8 @@ public class HTTPServer {
 			User-Agent: HTTPTool/1.0			
 		 */
 		String[] parts = properties.split(" ");
-		String data = "Hello World";
+		String data = cache.get(parts[0]);
+		System.err.println("Retrieving '" + parts[0] + "'...");
 		WriteOKResponseHeader(data, output);
 	}
 	
@@ -60,6 +68,8 @@ public class HTTPServer {
 			
 			home=Cosby&favorite+flavor=flies
 		 */	
+		String[] parts = properties.split(" ");
+		
 		String content = "";
 		String line;		
 		
@@ -74,8 +84,10 @@ public class HTTPServer {
 				break;
 			}
 		}
-		System.out.print(content);
-						
+		
+		System.err.println("Setting '" + parts[0] + "' to '" + content + "'...");
+		cache.set(parts[0], content);
+		
 		WriteOKResponseHeader("", output);
 	}
 	
@@ -96,7 +108,7 @@ public class HTTPServer {
 		response.append("HTTP/1.0 200 OK \n"); //Append HTTP/1.0 200 OK
 		
 		int length = 0;
-		if(data != null || !data.equals("")){
+		if(data != null && !data.equals("")){
 			length = data.length();
 		}
 		

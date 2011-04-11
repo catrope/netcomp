@@ -1,14 +1,12 @@
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 import java.util.Vector;
 
 public class Main
 {
-	ICache cache;
-	
 	/**
-	 * Init using "java Main configfile.txt serverId cacheSize"
+	 * Init using "java Main port configfile.txt serverId cacheSize"
 	 * where configfile.txt is a newline separated list of RMI
 	 * paths, serverId is an integer that denotes the current
 	 * instance (by referring to a line in configfile.txt) and
@@ -19,22 +17,40 @@ public class Main
 	 */
 	public Main(String[] args)
 	{
+		ICache cache;
+		
 		try {
-			Scanner scanner = new Scanner(new FileInputStream(args[1]));
+			if (args.length < 5) throw new Exception("Usage: java Main port configfile.txt serverId cacheSize");
+			
+			Scanner scanner = new Scanner(new FileInputStream(args[2]));
 			Vector<String> serverNames = new Vector<String>();
 			
 			while (scanner.hasNextLine()) {
 				serverNames.add(scanner.nextLine());
 			}
 			
-			cache = new RemoteCache((String[])serverNames.toArray(), Integer.parseInt(args[2]), new BasicCache(Integer.parseInt(args[3])));
+			cache = new RemoteCache((String[])serverNames.toArray(), Integer.parseInt(args[3]), new BasicCache(Integer.parseInt(args[4])));
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("Using basic cache...");
+			System.err.println("Using basic cache...");
 			cache = new BasicCache();
 		}
 		
-		// TODO: instantiate HTTP server
+		int port;
+		
+		if (args.length > 1)
+			port = Integer.parseInt(args[1]);
+		else
+			port = 8081;
+		
+		System.err.println("Using port " + port + "...");
+		
+		HTTPServer server = new HTTPServer(port, cache);
+		try {
+			server.Accept();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public static void main(String[] args)
