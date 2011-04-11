@@ -65,8 +65,10 @@ Hello World!
 \end{lstlisting}
 
 \subsection*{Local cache}
-All caches --- local and remote --- implement the interface \texttt{ICache}.
+All caches --- local and remote --- implement the interface \texttt{ICache}, which requires classes to implement the functions \texttt{get}, \texttt{set}, and \texttt{clear}. All classes and methods using caches accept an \texttt{ICache} as parameter, not specifying what kind of cache is used.
 
-The implementation of a basic functional local cache (\texttt{BasicCache}) is quite simple. We use a \texttt{HashMap} to store key-value pairs of strings. To decide which values to throw away when the cache is full, we use a \texttt{LinkedList}. The last value of this list is removed when the list is full, and new items are placed in front. This gives almost a FIFO behavior, the only difference being that when an already existing value is set again, it is not moved to the front of the list.
+A trivial but correct implementation of a cache is the \texttt{StubCache}, which does absolutely nothing. A cache is not required to indicate how long it stores data, if at all.
+
+The implementation of a basic functional local cache (\texttt{BasicCache}) is also quite simple. We use a \texttt{HashMap} to store key-value pairs of strings. To decide which values to throw away when the cache is full, we use a \texttt{LinkedList}. The last value of this list is removed when the list is full, and new items are placed in front. This gives almost a FIFO behavior, the only difference being that when an already existing value is set again, it is not moved to the front of the list.
 
 \end{document}
