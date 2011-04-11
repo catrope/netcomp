@@ -20,16 +20,16 @@ public class Main
 		ICache cache;
 		
 		try {
-			if (args.length < 5) throw new Exception("Usage: java Main port configfile.txt serverId cacheSize");
+			if (args.length < 4) throw new Exception("Usage: java Main port configfile.txt serverId cacheSize");
 			
-			Scanner scanner = new Scanner(new FileInputStream(args[2]));
+			Scanner scanner = new Scanner(new FileInputStream(args[1]));
 			Vector<String> serverNames = new Vector<String>();
 			
 			while (scanner.hasNextLine()) {
 				serverNames.add(scanner.nextLine());
 			}
 			
-			cache = new RemoteCache((String[])serverNames.toArray(), Integer.parseInt(args[3]), new BasicCache(Integer.parseInt(args[4])));
+			cache = new RemoteCache((String[])serverNames.toArray(), Integer.parseInt(args[2]), new BasicCache(Integer.parseInt(args[3])));
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.err.println("Using basic cache...");
@@ -38,8 +38,8 @@ public class Main
 		
 		int port;
 		
-		if (args.length > 1)
-			port = Integer.parseInt(args[1]);
+		if (args.length > 0)
+			port = Integer.parseInt(args[0]);
 		else
 			port = 8081;
 		
