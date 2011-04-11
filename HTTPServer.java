@@ -1,13 +1,14 @@
 import java.net.*;
 import java.io.*;
 import java.util.Date;
+import java.rmi.RemoteException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 public class HTTPServer {
 	final ICache cache;
 	
-	public HTTPServer(int port) {
+	public HTTPServer(int port) throws RemoteException {
 		this(port, new BasicCache());
 	}
 	

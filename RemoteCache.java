@@ -1,18 +1,39 @@
 import java.net.MalformedURLException;
+import java.net.URL;
 import java.rmi.Naming;
+import java.rmi.RMISecurityManager;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
 import java.util.Vector;
 
 public class RemoteCache implements ICache
 {
-	CacheServer cache;
+	ICache cache;
 	HashBalancer hb;
 	
 	public RemoteCache(Vector<String> serverNames, int localId, ICache localCache)
 	{
+		String serverName = serverNames.get(localId);
+		
+		if (System.getSecurityManager() == null)
+			System.setSecurityManager(new RMISecurityManager());
+		
 		try {
-			cache = new CacheServer(localCache);
-			Naming.rebind(serverNames.get(localId), cache);
+			URL url = new URL("http:" + serverName);
+			
+			if (url.getPort() > 0)
+				LocateRegistry.createRegistry(url.getPort());
+			else
+				LocateRegistry.createRegistry(1099);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			cache = localCache;
+			Naming.rebind(serverName, cache);
 			hb = new HashBalancer(serverNames);
 		} catch (RemoteException e) {
 			e.printStackTrace();
@@ -33,12 +54,12 @@ public class RemoteCache implements ICache
 		}
 	}
 	
-	public String get(String key)
+	public String get(String key) throws RemoteException
 	{
 		return getCacheServer(key).get(key);
 	}
 	
-	public void set(String key, String val)
+	public void set(String key, String val) throws RemoteException
 	{
 		getCacheServer(key).set(key, val);
 	}
@@ -51,6 +72,6 @@ public class RemoteCache implements ICache
 			e.printStackTrace();
 		}
 		
-		return null;
+		return cache;
 	}
 }

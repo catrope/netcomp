@@ -1,16 +1,19 @@
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
 import java.util.LinkedList;
 
 /**
  * Basic FIFO(-ish) caching class with a default size.
  */
-public class BasicCache implements ICache
+public class BasicCache extends UnicastRemoteObject implements ICache
 {
+	private static final long serialVersionUID = 1L;
 	LinkedList<String> list; // list to implement FIFO
 	HashMap<String, String> map; // map to look up values
 	int size; // size of the cache
 	
-	public BasicCache(int size)
+	public BasicCache(int size) throws RemoteException
 	{
 		// size must be sane
 		if (size < 1) size = 1;
@@ -26,25 +29,25 @@ public class BasicCache implements ICache
 		list = new LinkedList<String>();
 	}
 	
-	public BasicCache()
+	public BasicCache() throws RemoteException
 	{
 		// default to size 50
 		this(50);
 	}
 	
-	public void clear()
+	public void clear() throws RemoteException
 	{
 		map.clear();
 		list.clear();
 	}
 	
-	public String get(String key)
+	public String get(String key) throws RemoteException
 	{
 		// retrieve the value from the map
 		return map.get(key);
 	}
 	
-	public void set(String key, String val)
+	public void set(String key, String val) throws RemoteException
 	{
 		// if the key is not in the map yet, some extra work needs to be done
 		if (!map.containsKey(key))

@@ -1,12 +1,12 @@
 import java.io.FileInputStream;
-import java.io.IOException;
+import java.rmi.RemoteException;
 import java.util.Scanner;
 import java.util.Vector;
 
 public class Main
 {
 	/**
-	 * Init using "java Main port configfile.txt serverId cacheSize"
+	 * Init using "java -Djava.security.policy=server.policy Main port configfile.txt serverId cacheSize"
 	 * where configfile.txt is a newline separated list of RMI
 	 * paths, serverId is an integer that denotes the current
 	 * instance (by referring to a line in configfile.txt) and
@@ -20,7 +20,7 @@ public class Main
 		ICache cache;
 		
 		try {
-			if (args.length < 4) throw new Exception("Usage: java Main port configfile.txt serverId cacheSize");
+			if (args.length < 4) throw new Exception("Usage: java -Djava.security.policy=server.policy Main port configfile.txt serverId cacheSize");
 			
 			Scanner scanner = new Scanner(new FileInputStream(args[1]));
 			Vector<String> serverNames = new Vector<String>();
@@ -33,7 +33,12 @@ public class Main
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.err.println("Using basic cache...");
-			cache = new BasicCache();
+			try {
+				cache = new BasicCache();
+			} catch (RemoteException e1) {
+				cache = null;
+				e1.printStackTrace();
+			}
 		}
 		
 		int port;
@@ -45,10 +50,10 @@ public class Main
 		
 		System.err.println("Using port " + port + "...");
 		
-		HTTPServer server = new HTTPServer(port, cache);
 		try {
+			HTTPServer server = new HTTPServer(port, cache);
 			server.Accept();
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

@@ -1,14 +1,20 @@
+import java.rmi.RemoteException;
+
 public class Tests
 {
 	public static void main(String[] args) { new Tests(); }
 	
 	public Tests()
 	{
-		testStubCache();
-		testBasicCache();
+		try {
+			testStubCache();
+			testBasicCache();
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
 	}
 	
-	private void testStubCache()
+	private void testStubCache() throws RemoteException
 	{
 		System.out.println("creating new StubCache");
 		StubCache cache = new StubCache();
@@ -20,7 +26,7 @@ public class Tests
 		System.out.println();
 	}
 	
-	private void testBasicCache()
+	private void testBasicCache() throws RemoteException
 	{
 		System.out.println("creating new BasicCache, size 2");
 		BasicCache cache = new BasicCache(2);
