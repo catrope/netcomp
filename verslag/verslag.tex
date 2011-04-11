@@ -1,5 +1,14 @@
 \documentclass[12pt]{article}
 
+\usepackage{listings}
+\usepackage[english]{babel}
+\usepackage{parskip}
+
+\lstset{tabsize=4, columns=flexible, breaklines=true, numbers=left, stepnumber=1, numberstyle=\tiny, numbersep=6pt, xleftmargin=1.8em}
+\lstdefinestyle{nonumbers}{numbers=none}
+\lstdefinestyle{logo}{language={}}
+
+
 \begin{document}
 
 \author{Roy Triesschijn, Roan Kattouw and Jan Paul Posma}
@@ -17,5 +26,42 @@ Another problem of memcached is that it uses its own API. While there currently 
 
 \section*{Goal}
 This, indeed, is the main objective of our distributed caching system. To provide a convenient cache that is easy to set up and easy to access. While it should be performant as it is a caching server, this is not the main objective, as this is mostly an academic exercise. It should provide a transparent API, where any user can call any of the caching server, and the server should then silently pass on the request to the correct server.
+
+\section*{Design}
+Each node runs a very basic HTTP server that listens for GET and POST requests. Requests using
+other methods are silently ignored. The server then does some very basic parsing on the first line
+of the request to obtain the requested cache key.
+
+This cache key is then run through a hashing algorithm that determines which caching server is
+supposed to have the cache entry for that key. An RMI call is then issued to this server to
+get the value of the cache key if the request method was GET, or to set it to the contents
+of the request body if the request method was POST.
+
+The remote server receiving this RMI call (which may or may not be the same server that
+handled the HTTP request; this is handled completely transparently) has an in-memory
+key-value store. For a set call, it writes the provided key-value pair to the store,
+overwriting a pre-existing pair with the same key, if present. For a get call, it
+retrieves the key-value pair with the provided key from the store and returns its
+value.
+
+After the RMI call finishes, the HTTP server returns the requested value for a GET
+request, or an empty response for a POST request.
+
+\section*{Implementation}
+\subsection*{HTTP request format}
+The requests the HTTP server expects are very simple. When getting the value of a
+cache key, the following HTTP request-response dialog happens:
+
+\begin{lstlisting}
+GET /mykey HTTP/1.0
+
+HTTP/1.0 200 OK 
+Date: Mon, 11 Apr, 2011 16:56:04 CEST
+Content-Type: text/plain; charset=utf-8
+Content-Length: 12
+Connection: close
+
+Hello World!
+\end{lstlisting}
 
 \end{document}
