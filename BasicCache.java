@@ -32,6 +32,12 @@ public class BasicCache implements ICache
 		this(50);
 	}
 	
+	public void clear()
+	{
+		map.clear();
+		list.clear();
+	}
+	
 	public String get(String key)
 	{
 		// retrieve the value from the map
