@@ -10,7 +10,7 @@ public class CacheServer extends UnicastRemoteObject implements ICache
 {
 	final ICache localCache;
 	
-	public CacheServer(ICache localCache, String serverName) throws RemoteException
+	public CacheServer(ICache localCache) throws RemoteException
 	{
 		this.localCache = localCache;
 	}
