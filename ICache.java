@@ -14,4 +14,9 @@ public interface ICache
 	 * Store a string in the cache.
 	 */
 	public void set(String key, String val);
+	
+	/**
+	 * Clear the cache.
+	 */
+	public void clear();
 }
